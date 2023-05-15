@@ -44,7 +44,7 @@ showPopUp({
                     ? Icon(
                         imageUri,
                         size: imageSize ?? IconSizes.xxl,
-                        color: AppColor.primaryColor,
+                        color: AppColor.primary,
                       )
                     : Container(),
                 verticalSpace(Insets.xl),
@@ -69,11 +69,11 @@ showPopUp({
                           label: labelButton,
                           color: AppColor.whiteColor,
                           outlineColor:
-                              outlineButtonColor ?? AppColor.primaryColor,
+                              outlineButtonColor ?? AppColor.primary,
                           labelStyle: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: labelButtonColor ?? AppColor.primaryColor,
+                            color: labelButtonColor ?? AppColor.primary,
                           ),
                         )
                       : const SizedBox(),

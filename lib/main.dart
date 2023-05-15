@@ -78,7 +78,7 @@ class _AppViewState extends State<AppView> with WidgetsBindingObserver {
         theme: ThemeData(
           platform: TargetPlatform.android,
           brightness: Brightness.light,
-          primaryColor: AppColor.primaryColor,
+          primaryColor: AppColor.primary,
           fontFamily: 'DMSans',
         ),
         builder: (BuildContext context, Widget? child) {

@@ -15,7 +15,7 @@ class BorderStyles {
 
   static OutlineInputBorder focusTextField = OutlineInputBorder(
     borderSide:
-        const BorderSide(color: AppColor.primaryColor, width: Strokes.thin),
+        const BorderSide(color: AppColor.primary, width: Strokes.thin),
     borderRadius: Corners.lgBorder,
   );
 

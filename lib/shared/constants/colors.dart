@@ -20,6 +20,18 @@ class AppColor {
   );
   static const int _neutral = 0xFF111927;
 
+  //PRIMARY
+  static const MaterialColor primary = MaterialColor(
+    _primary,
+    <int, Color>{
+      600: Color(0xFF263C66),
+      700: Color(0xFF162645),
+      800: Color(0xFF0E1F40),
+      900: Color(_primary),
+    },
+  );
+  static const int _primary = 0xFF091733;
+
   static const MaterialColor error = MaterialColor(
     _error,
     <int, Color>{
@@ -64,11 +76,10 @@ class AppColor {
   );
 
   //ACCENT
-  static const Color primaryColor = Color(0xFF0E1F40);
   static const Color secondaryColor = Color(0xFF96989c);
   static const Color transparentColor = Colors.transparent;
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
-  static const Color bgColor = Color(0xFFF6F1F1);
+  static const Color bgColor = Color(0xFFF5F5F5);
   static const Color boxSuccessColor = Color(0xFFd5e8d4);
 }
