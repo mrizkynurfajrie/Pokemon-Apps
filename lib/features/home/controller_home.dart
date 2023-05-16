@@ -2,9 +2,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokemon_app/features/home/api_home.dart';
-import 'package:pokemon_app/response/pokemon.dart';
+import 'package:pokemon_app/framework/local_storage.dart';
+import 'package:pokemon_app/response/pokemons.dart';
 import 'package:pokemon_app/response/pokemon_list.dart';
-import 'package:pokemon_app/shared/controller/controller_pokemon_list.dart';
+import 'package:pokemon_app/shared/controller/controller_pokemon_details.dart';
 import 'package:pokemon_app/shared/widgets/show_dialog.dart';
 
 class ControllerHome extends GetxController {
@@ -15,9 +16,8 @@ class ControllerHome extends GetxController {
 
   var loading = false.obs;
   var controllerPokemonList = Get.find<ControllerPokemonList>();
-  // var controllerPokemonDetails = Get.find<ControllerPokemonDetails>();
   var listPokemon = List.empty().obs;
-  var pokemons = List<Pokemon>.empty().obs;
+  var pokemons = List<Pokemons>.empty().obs;
 
   @override
   void onInit() async {
@@ -32,11 +32,15 @@ class ControllerHome extends GetxController {
       log('api results : $r');
       if (r != null) {
         var data = r["results"];
+        await LocalStorage().setPokemonList(pokemonList: data);
+        var getList = await LocalStorage().getPokemonList();
+        log(getList.toString());
         var pokemons = List.from(data)
-            .map((pokemonResults) => PokemonResults.fromMap(pokemonResults))
+            .map((pokemonResults) => PokemonList.fromMap(pokemonResults))
             .toList();
-        for (var result in pokemons) {
-          getPokemonDetails(result.url);
+        controllerPokemonList.pokemonList.value = pokemons;
+        for (var result in controllerPokemonList.pokemonList) {
+          getPokemonDetails(result.url!);
         }
       } else {
         showPopUp(
@@ -63,9 +67,10 @@ class ControllerHome extends GetxController {
       log("data details : $r");
       if (r != null) {
         var data = r;
-        var pokemon = Pokemon.fromMap(data);
+        var pokemon = Pokemons.fromMap(data);
         if (pokemons.isEmpty) {
           listPokemon.add(pokemon);
+          listPokemon.sort((a, b) => a.id.compareTo(b.id));
         }
       }
     } catch (e) {

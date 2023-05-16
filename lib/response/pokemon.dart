@@ -1,104 +1,109 @@
+// To parse this JSON data, do
+//
+//     final pokemon = pokemonFromJson(jsonString);
+
+import 'dart:convert';
+
+Pokemon pokemonFromJson(String str) => Pokemon.fromJson(json.decode(str));
+
+String pokemonToJson(Pokemon data) => json.encode(data.toJson());
+
 class Pokemon {
-  int id;
-  int height;
-  String name;
-  List<Stats> stats;
-  List<Types> types;
-  int weight;
+    int? id;
+    int? height;
+    String? name;
+    List<StatElement>? stats;
+    List<Type>? types;
+    int? weight;
 
-  Pokemon(this.id, this.height, this.name, this.stats, this.types, this.weight);
+    Pokemon({
+        this.id,
+        this.height,
+        this.name,
+        this.stats,
+        this.types,
+        this.weight,
+    });
 
-  String get imageUrl {
-    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png";
-  }
-
-  Pokemon copyWith({
-    int? id,
-    int? height,
-    String? name,
-    List<Stats>? stats,
-    List<Types>? types,
-    int? weight,
-  }) {
-    return Pokemon(
-      id ?? this.id,
-      height ?? this.height,
-      name ?? this.name,
-      stats ?? this.stats,
-      types ?? this.types,
-      weight ?? this.weight,
+    factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
+        id: json["id"],
+        height: json["height"],
+        name: json["name"],
+        stats: json["stats"] == null ? [] : List<StatElement>.from(json["stats"]!.map((x) => StatElement.fromJson(x))),
+        types: json["types"] == null ? [] : List<Type>.from(json["types"]!.map((x) => Type.fromJson(x))),
+        weight: json["weight"],
     );
-  }
 
-  factory Pokemon.fromMap(Map<String, dynamic> map) {
-    return Pokemon(
-      map['id'],
-      map['height'],
-      map['name'],
-      List<Stats>.from(map['stats']?.map((x) => Stats.fromMap(x))),
-      List<Types>.from(map['types']?.map((x) => Types.fromMap(x))),
-      map['weight'],
-    );
-  }
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "height": height,
+        "name": name,
+        "stats": stats == null ? [] : List<dynamic>.from(stats!.map((x) => x.toJson())),
+        "types": types == null ? [] : List<dynamic>.from(types!.map((x) => x.toJson())),
+        "weight": weight,
+    };
 }
 
-class Stats {
-  int stat;
-  String name;
+class StatElement {
+    int? baseStat;
+    int? effort;
+    TypeClass? stat;
 
-  Stats({
-    required this.stat,
-    required this.name,
-  });
+    StatElement({
+        this.baseStat,
+        this.effort,
+        this.stat,
+    });
 
-  Stats copyWith({
-    int? stat,
-    String? name,
-  }) {
-    return Stats(
-      stat: stat ?? this.stat,
-      name: name ?? this.name,
+    factory StatElement.fromJson(Map<String, dynamic> json) => StatElement(
+        baseStat: json["base_stat"],
+        effort: json["effort"],
+        stat: json["stat"] == null ? null : TypeClass.fromJson(json["stat"]),
     );
-  }
 
-  factory Stats.fromMap(Map<String, dynamic> map) {
-    int stat = map['base_stat'];
-    String name = map['stat']['name'];
-    if (name == "hp") {
-      return Stats(stat: stat, name: "HP ");
-    } else if (name == "attack") {
-      return Stats(stat: stat, name: "ATK");
-    } else if (name == "defense") {
-      return Stats(stat: stat, name: "DEF");
-    } else if (name == "special-attack") {
-      return Stats(stat: stat, name: "STK");
-    } else if (name == "special-defense") {
-      return Stats(stat: stat, name: "SEF");
-    } else if (name == "speed") {
-      return Stats(stat: stat, name: "SPD");
-    } else {
-      return Stats(stat: stat, name: name);
-    }
-  }
+    Map<String, dynamic> toJson() => {
+        "base_stat": baseStat,
+        "effort": effort,
+        "stat": stat?.toJson(),
+    };
 }
 
-class Types {
-  String types;
-  Types({
-    required this.types,
-  });
+class TypeClass {
+    String? name;
+    String? url;
 
-  Types copyWith({
-    String? types,
-  }) {
-    return Types(
-      types: types ?? this.types,
-    );
-  }
+    TypeClass({
+        this.name,
+        this.url,
+    });
 
-  factory Types.fromMap(Map<String, dynamic> map) {
-    return Types(
-      types: map['type']['name'],
+    factory TypeClass.fromJson(Map<String, dynamic> json) => TypeClass(
+        name: json["name"],
+        url: json["url"],
     );
-  }
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "url": url,
+    };
+}
+
+class Type {
+    int? slot;
+    TypeClass? type;
+
+    Type({
+        this.slot,
+        this.type,
+    });
+
+    factory Type.fromJson(Map<String, dynamic> json) => Type(
+        slot: json["slot"],
+        type: json["type"] == null ? null : TypeClass.fromJson(json["type"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "slot": slot,
+        "type": type?.toJson(),
+    };
 }

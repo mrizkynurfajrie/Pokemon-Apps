@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pokemon_app/shared/constants/colors.dart';
 import 'package:pokemon_app/shared/constants/styles.dart';
@@ -68,8 +69,7 @@ showPopUp({
                           onPressed: onPress ?? () => Get.back(),
                           label: labelButton,
                           color: AppColor.whiteColor,
-                          outlineColor:
-                              outlineButtonColor ?? AppColor.primary,
+                          outlineColor: outlineButtonColor ?? AppColor.primary,
                           labelStyle: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -84,4 +84,19 @@ showPopUp({
         ),
       ),
       barrierDismissible: dismissible ?? true);
+}
+
+showToast(
+    {required String message,
+    Color? color,
+    Color? textColor,
+    ToastGravity? gravity}) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: gravity ?? ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: color ?? AppColor.primary.withOpacity(.4),
+      textColor: textColor ?? AppColor.whiteColor,
+      fontSize: 12);
 }

@@ -1,20 +1,21 @@
-// import 'package:get/get.dart';
-// import 'package:pokemon_app/framework/local_storage.dart';
-// import 'package:pokemon_app/response/pokemon_details.dart';
+import 'package:get/get.dart';
+import 'package:pokemon_app/framework/local_storage.dart';
+import 'package:pokemon_app/response/pokemon_list.dart';
 
-// class ControllerPokemonDetails extends GetxController {
-//   @override
-//   void onInit() async {
-//     await setPokemonDetailsData();
-//     super.onInit();
-//   }
+class ControllerPokemonList extends GetxController {
+  @override
+  void onInit() async {
+    await setPokemonListData();
+    super.onInit();
+  }
 
-//   var pokemonDetails = Pokemon().obs;
+  var pokemonList = List<PokemonList>.empty().obs;
 
-//   setPokemonDetailsData() async {
-//     var data = await LocalStorage().getPokemonDetails();
-//     if (data != null) {
-//       pokemonDetails.value = PokemonDetails.fromJson(data);
-//     }
-//   }
-// }
+  setPokemonListData() async {
+    var data = await LocalStorage().getPokemonList();
+    if (data != null) {
+      pokemonList.value =
+          (data as List).map((data) => PokemonList.fromMap(data)).toList();
+    }
+  }
+}

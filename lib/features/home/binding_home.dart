@@ -5,7 +5,6 @@ import 'package:pokemon_app/features/home/controller_home.dart';
 class BindingHome implements Bindings {
   @override
   void dependencies() {
-    // TODO: implement dependencies
     Get.put(ControllerHome(api: ApiHome()));
   }
 }

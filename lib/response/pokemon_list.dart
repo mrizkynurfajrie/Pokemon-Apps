@@ -1,27 +1,26 @@
-class PokemonResults {
-  String name;
-  String url;
+class PokemonList {
+  String? name;
+  String? url;
 
-  PokemonResults({
-    required this.name,
-    required this.url,
+  PokemonList({
+    this.name,
+    this.url,
   });
 
-  PokemonResults copyWith({
+  PokemonList copyWith({
     String? name,
     String? url,
   }) {
-    return PokemonResults(
+    return PokemonList(
       name: name ?? this.name,
       url: url ?? this.url,
     );
   }
 
-  factory PokemonResults.fromMap(Map<String, dynamic> map) {
-    return PokemonResults(
+  factory PokemonList.fromMap(Map<String, dynamic> map) {
+    return PokemonList(
       name: map['name'] as String,
       url: map['url'] as String,
     );
   }
-
 }

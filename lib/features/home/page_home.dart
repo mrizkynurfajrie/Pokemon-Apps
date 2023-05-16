@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:pokemon_app/features/home/controller_home.dart';
-import 'package:pokemon_app/response/pokemon.dart';
+import 'package:pokemon_app/response/pokemons.dart';
 import 'package:pokemon_app/routes/app_routes.dart';
 import 'package:pokemon_app/shared/constants/colors.dart';
 import 'package:pokemon_app/shared/constants/styles.dart';
@@ -23,37 +23,44 @@ class PageHome extends GetView<ControllerHome> {
           child: SingleChildScrollView(
             child: Obx(
               () => controller.loading.isFalse
-                  ? Column(
-                      children: [
-                        Container(
-                          width: Get.width,
-                          height: Get.height,
-                          padding: EdgeInsets.only(
-                            top: 88.h,
-                            left: 26.w,
-                            right: 25.w,
-                            bottom: 41.h,
-                          ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        await Future.delayed(const Duration(seconds: 2));
+                        controller.listPokemon.clear();
+                        controller.getPokemonList();
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            width: Get.width,
+                            height: Get.height,
+                            padding: EdgeInsets.only(
+                              top: 88.h,
+                              left: 26.w,
+                              right: 25.w,
+                              bottom: 41.h,
+                            ),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: GridView.builder(
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                    ),
+                                    itemCount: controller.listPokemon.length,
+                                    itemBuilder: ((context, index) {
+                                      return CardItem(
+                                        pokemons: controller.listPokemon[index],
+                                      );
+                                    }),
                                   ),
-                                  itemCount: controller.listPokemon.length,
-                                  itemBuilder: ((context, index) {
-                                    return CardItem(
-                                      pokemon: controller.listPokemon[index],
-                                    );
-                                  }),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     )
                   : loadingIndicator(context),
             ),
@@ -67,16 +74,16 @@ class PageHome extends GetView<ControllerHome> {
 class CardItem extends StatelessWidget {
   const CardItem({
     super.key,
-    required this.pokemon,
+    required this.pokemons,
   });
 
-  final Pokemon pokemon;
+  final Pokemons pokemons;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.detail, arguments: pokemon.id);
+        Get.toNamed(Routes.detail, arguments: pokemons.id);
       },
       child: Container(
         height: 157.h,
@@ -97,9 +104,9 @@ class CardItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Hero(
-              tag: pokemon.id,
+              tag: pokemons.id!,
               child: CachedNetworkImage(
-                imageUrl: pokemon.imageUrl,
+                imageUrl: pokemons.imageUrl,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: ((context, url, progress) => Shimmer(
                       gradient: AppColor.shimmerGradient,
@@ -116,7 +123,7 @@ class CardItem extends StatelessWidget {
             ),
             verticalSpace(9.h),
             Text(
-              pokemon.name,
+              pokemons.name!,
               style: TextStyles.inter.copyWith(
                 fontSize: 10,
                 color: AppColor.whiteColor,
