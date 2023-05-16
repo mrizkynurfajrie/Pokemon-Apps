@@ -79,6 +79,8 @@ class AppColor {
   static const Color secondaryColor = Color(0xFF96989c);
   static const Color transparentColor = Colors.transparent;
   static const Color whiteColor = Color(0xFFFFFFFF);
+  static const Color light800 = Color(0xFFF2F2F2);
+  static const Color light900 = Color(0xFFCCC2C2);
   static const Color blackColor = Color(0xFF000000);
   static const Color bgColor = Color(0xFFF5F5F5);
   static const Color boxSuccessColor = Color(0xFFd5e8d4);

@@ -16,6 +16,9 @@ class ControllerDetail extends GetxController {
 
   var loading = false.obs;
   var getId = 0.obs;
+  var imgUrl = ''.obs;
+  var listType = List<Type>.empty().obs;
+  var listStat = List<StatElement>.empty().obs;
 
   @override
   void onInit() async {
@@ -34,6 +37,10 @@ class ControllerDetail extends GetxController {
         var getDetailPokemon = await LocalStorage().getPokemons();
         log(getDetailPokemon.toString());
         controllerPokemon.pokemon.value = Pokemon.fromJson(r);
+        imgUrl.value =
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${getId.value}.png";
+        listType.addAll(controllerPokemon.pokemon.value.types!);
+        listStat.addAll(controllerPokemon.pokemon.value.stats!);
       } else {
         showPopUp(
           title: 'Something went wrong!',
