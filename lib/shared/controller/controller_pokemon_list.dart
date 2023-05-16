@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 import 'package:pokemon_app/framework/local_storage.dart';
-import 'package:pokemon_app/response/pokemon_results.dart';
+import 'package:pokemon_app/response/pokemon.dart';
+import 'package:pokemon_app/response/pokemon_list.dart';
 
 class ControllerPokemonList extends GetxController {
-  var pokemonList = PokemonResults().obs;
+  var pokemonList = List<Pokemon>.empty().obs;
 
   @override
   void onInit() async {
@@ -14,7 +15,8 @@ class ControllerPokemonList extends GetxController {
   setPokemonListData() async {
     var data = await LocalStorage().getPokemonList();
     if (data != null) {
-      pokemonList.value = PokemonResults.fromJson(data);
+      pokemonList.value =
+          (data as List).map((data) => Pokemon.fromMap(data)).toList();
     }
   }
 }

@@ -9,6 +9,6 @@ class ControllerBind implements Bindings {
     // TODO: implement dependencies
     Get.put(ControllerSplash());
     Get.put(ControllerPokemonList());
-    Get.put(ControllerPokemonDetails());
+    // Get.put(ControllerPokemonDetails());
   }
 }
